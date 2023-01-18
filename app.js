@@ -71,7 +71,7 @@ todoUl.addEventListener("click",(e)=>{
  }else if(e.target.classList.contains("fa-check")){
     e.target.parentElement.classList.toggle("checked");
     todos.map((todo,index) =>{
-        if(todo.id == ){
+        if(todo.id == id ){
             todos[index].completed = !todos[index].completed;
         }
     });
@@ -83,7 +83,7 @@ todoUl.addEventListener("click",(e)=>{
 // =====================================================
 //ınput içinde iken klavyeden enter a basınca kaydediyor.süslünün içindeki olay gerçekleştirilecek yani add butonu click olacak
 todoInput.addEventListener("keydown",()=>{
-    if(else.code === "Enter"){
+    if(e.code === "Enter"){
         addBtn.click();
     }
     

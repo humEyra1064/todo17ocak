@@ -21,15 +21,21 @@ addBtn.addEventListener("click",()=>{
 
 
 
-    createListElement()
+    createListElement(newTodo);
+    //oluşan objeleri push edip baştaki diziye göndermek istiyoruz.Baştaki dizinin en sonuna eklemek istediğimiz için push kullandık.
+    todos.push(newTodo);
+    localStorage.setItem("TODOS",JSON.stringify(todos));
+    //butona click olduğunda todos array imi localstroge göndermiş olduk
+    todoInput.value = "";
+    //clicklendiğinde inputun içindeki veriler sıfırlanmış temizlenmiş olacak.
 })
 
-function createListElement(){
+function createListElement(newTodo){
     const {id,completed,text} = newTodo;  //destr. yaptık
  const li =  document.createElement("li")  ; //li oluşturulacak
  li.setAttribute("id",id)                //li elementine id oluşturduk.
  
- 
+ completed && li.classList.add("checked")   //completed başlangıçta false .complated dediğim şey true olduğu zaman li ye "checked"ikinci class ını li ye veriyoruz.
  const okIcon =  document.createElement("i") ;  //i oluşturulacak
  okIcon.setAttribute("class","fas fa-check")   //i elementine class verdik
  li.appendChild(okIcon) ; // i elementini li elementine child yaptık
@@ -49,11 +55,15 @@ function createListElement(){
 
 }
 // ================================================
-//ul ye tıklandığında oluşacak şeyler
-todoUl.addEventListener("click",()=>{
+//ul ye tıklandığında oluşacak şeyler.e.target e yi yakala demek.Yakaladığım şeyin classı çöp kovası ise yazılanlar remove olsun
+todoUl.addEventListener("click",(e)=>{
+ const id =  e.target.parentElement.getAttribute("id");
+ if(e.target.classList.contains("fa-trash")){
+    e.target.parentElement.remove();
 
-    
-
+ }else if(e.target.classList.contains("fa-check")){
+    e.target.parentElement.classList.toggle("checked");
+ }
 
 })
 // =====================================================

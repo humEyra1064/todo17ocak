@@ -2,8 +2,14 @@ const addBtn = document.getElementById("todo-button");
 const todoInput = document.getElementById("todo-input");
 const todoUl = document.getElementById("todo-ul");
 
-let todos = [];
+let todos = JSON.parse(localStorage.getItem("TODOS")) || [];
 //önce gerekli olan elementlerin ıd lerini değişkene atadık kolaylık olsun diye.
+const renderSavedTodos = ()=> {
+    todos.forEach((todo)=>{
+        createListElement(todo)
+    })
+}
+renderSavedTodos();
 // ===============================================
 //butona tıklandığında oluşacak şeyler
 addBtn.addEventListener("click",()=>{
@@ -17,17 +23,16 @@ addBtn.addEventListener("click",()=>{
             completed: false,
             text:todoInput.value,
         }
-    }
-
-
-
-    createListElement(newTodo);
-    //oluşan objeleri push edip baştaki diziye göndermek istiyoruz.Baştaki dizinin en sonuna eklemek istediğimiz için push kullandık.
-    todos.push(newTodo);
-    localStorage.setItem("TODOS",JSON.stringify(todos));
+        createListElement(newTodo);
+        todos.push(newTodo);
+        //oluşan objeleri push edip baştaki diziye göndermek istiyoruz.Baştaki dizinin en sonuna eklemek istediğimiz için push kullandık.
+        localStorage.setItem("TODOS",JSON.stringify(todos));
     //butona click olduğunda todos array imi localstroge göndermiş olduk
     todoInput.value = "";
     //clicklendiğinde inputun içindeki veriler sıfırlanmış temizlenmiş olacak.
+    }
+ 
+    
 })
 
 function createListElement(newTodo){
@@ -60,12 +65,21 @@ todoUl.addEventListener("click",(e)=>{
  const id =  e.target.parentElement.getAttribute("id");
  if(e.target.classList.contains("fa-trash")){
     e.target.parentElement.remove();
+  todos = todos.filter((todo)=>todo.id !==Number(id))
+  localStorage.setItem("TODOS",JSON.stringify(todos));
 
  }else if(e.target.classList.contains("fa-check")){
     e.target.parentElement.classList.toggle("checked");
+    todos.map((todo,index) =>{
+        if(todo.id == ){
+            todos[index].completed = !todos[index].completed;
+        }
+    });
+    localStorage.setItem("TODOS",JSON.stringify(todos));
+    
  }
 
-})
+});
 // =====================================================
 //ınput içinde iken klavyeden enter a basınca kaydediyor.süslünün içindeki olay gerçekleştirilecek yani add butonu click olacak
 todoInput.addEventListener("keydown",()=>{
